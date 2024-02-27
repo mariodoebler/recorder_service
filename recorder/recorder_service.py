@@ -71,12 +71,9 @@ def save_frames():
     with frame_buffer_lock: # Ensure that no new frames are added during storing the images
         buffer_length = len(frame_buffer)
         for i in range(buffer_length):
-            if frame_buffer:
-                frame = frame_buffer.pop()
-                # Save the frame to storage as PNG
-                cv2.imwrite(os.path.join(root_dir, timestamp, f'saved_frame_{i}.png'), frame)
-            else:
-                break
+            frame = frame_buffer.popleft()
+            # Save the frame to storage as PNG
+            cv2.imwrite(os.path.join(root_dir, timestamp, f'saved_frame_{i}.png'), frame)
 
     # Save JSON data to a file
     with open(os.path.join(root_dir, timestamp, 'metadata.json'), 'w') as json_file:
